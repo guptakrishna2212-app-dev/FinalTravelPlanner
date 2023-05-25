@@ -1,0 +1,57 @@
+<h1> Chat GPT travel planner </h1>
+
+<table border="1">
+  <form action="/gptresult">  
+  <tr>
+    <td>
+      <label for="il">From where do you want to travel?</label>
+    </td>
+
+    <td>
+      <label for="md">What mode of transport do you prefer to travel?</label>
+    </td>
+
+    <td>
+      <label for="dis">How long do you want to travel? (in hours)</label>
+    </td>
+
+    <td>
+      <label for="type">What kind of location do you want to travel to?</label>
+    </td>   
+  </tr>
+
+    <tr>
+      <td>
+        <input id="il" name="initial_location">
+      </td>
+
+      <td>
+        <select id="md" name="mode">
+          <option value="road" selected>Road</option>
+          <option value="fly">Fly</option>
+        </select>
+      </td>
+
+      <td>
+        <select id="dis" name="distance_hours">
+          <option value="1" >1</option>
+          <option value="2" selected>2</option>  
+          <option value="3" >3</option>
+          <option value="4" >4</option>
+          <option value="5" >5</option>                                      
+        </select>
+      </td>
+
+      <td>
+        <select id="type" name="location_type">
+          <option value="beach" selected>Beach</option>
+          <option value="mountain">Mountain</option>
+        </select>
+      </td>
+
+    </tr>
+</table>
+
+<button> Submit </button>
+
+</form>

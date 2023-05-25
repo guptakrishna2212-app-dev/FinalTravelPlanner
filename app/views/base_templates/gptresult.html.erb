@@ -1,0 +1,33 @@
+
+<%=
+
+initial_location = params.fetch("initial_location")
+mode = params.fetch("mode")
+distance_hours = params.fetch("distance_hours")
+location_type = params.fetch("location_type")
+
+require "openai"
+
+key = ENV.fetch("GPT_KEY")
+
+client = OpenAI::Client.new(
+  access_token: key
+  )
+
+response = client.chat(
+    parameters: {
+        model: "gpt-3.5-turbo", 
+        messages: [
+           { role: "system", content: "You are a helpful assistant that responds only in JSON format and gives a list of location with the following columns to help the user prepare their travel: name of the place, state, country, and time to reach the destination by #{mode}" },
+          { role: "user",
+          content: "Give me a list of all #{location_type} destinations within #{distance_hours} hours of #{mode} distance from #{initial_location}! Respond only in JSON format"
+          }
+          ],
+        temperature: 0.7,
+    })
+
+
+
+p response.dig("choices", 0, "message", "content")
+
+%>
