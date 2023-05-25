@@ -1,6 +1,5 @@
 
-<%=
-
+<%
 initial_location = params.fetch("initial_location")
 mode = params.fetch("mode")
 distance_hours = params.fetch("distance_hours")
@@ -18,16 +17,59 @@ response = client.chat(
     parameters: {
         model: "gpt-3.5-turbo", 
         messages: [
-           { role: "system", content: "You are a helpful assistant that responds only in JSON format and gives a list of location with the following columns to help the user prepare their travel: name of the place, state, country, and time to reach the destination by #{mode}" },
+           { role: "system", content: "You are a helpful assistant that responds only in JSON format and gives a list of location with the following columns to help the user prepare their travel: name of the place, state, country, and travel time by #{mode}" },
           { role: "user",
-          content: "Give me a list of all #{location_type} destinations within #{distance_hours} hours of #{mode} distance from #{initial_location}! Respond only in JSON format"
+          content: "Give me a list of all #{location_type} destinations within #{distance_hours} hours of #{mode} distance from #{initial_location}! Respond only in JSON format. Don't have any text before the JSON"
           }
           ],
         temperature: 0.7,
     })
 
-
-
-p response.dig("choices", 0, "message", "content")
-
 %>
+
+<table border=1>
+  <tr>
+    <td>
+    Name of the place
+    </td>
+
+    <td>
+    State
+    </td>
+
+    <td>
+    Country
+    </td>
+
+    <td>
+    Travelling time by <%= mode %>
+    </td>
+  </tr>
+
+
+<% raw_data = response.fetch("choices").at(0).fetch("message").fetch("content") %>
+
+<% parsed_data = JSON.parse(raw_data) %>
+
+<% parsed_data.fetch("destinations").each do |place| %>
+  <tr>
+    <td>
+      <a href= "/gptresult/<%= place["name"] %>"> 
+        <%= place["name"] %>
+      </a>
+    </td>
+
+    <td>
+      <%= place["state"] %>
+    </td>
+
+    <td>
+      <%= place["country"] %>
+    </td>    
+
+    <td>
+      <%= place["travel_time_by_#{mode}"] %>
+    </td>
+
+  </tr>
+<% end %>
