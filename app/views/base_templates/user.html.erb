@@ -13,7 +13,11 @@
     </td>
   </tr>
 
-<% @user.each do |user| %>
+<% 
+    p ""
+    else
+
+@user.each do |user| %>
   <tr>
     <td>
       <%= user.destinationsthroughlike.at(0).id %>
@@ -25,4 +29,5 @@
   </tr>
   
 <% end %>
+<% %>
 </table>

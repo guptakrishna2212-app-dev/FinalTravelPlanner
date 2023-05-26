@@ -45,10 +45,6 @@
           <a href="/all_destinations"> All Destinations </a>
         </li>
 
-        <li>
-          Currently signed in user is <%= User.all.where({:id => session.fetch(:user_id)}).at(0).username%>
-        </li>
-
       </ul>
     </nav>
 
