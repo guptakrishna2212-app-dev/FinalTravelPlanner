@@ -1,0 +1,55 @@
+
+<% location_name = params.fetch("location_name") 
+
+require "openai"
+
+key = ENV.fetch("GPT_KEY")
+
+client = OpenAI::Client.new(
+  access_token: key
+  )
+
+response = client.chat(
+    parameters: {
+        model: "gpt-3.5-turbo", 
+        messages: [
+           { role: "system", content: "You are a helpful assistant that responds only in JSON format and gives details with the following columns to help the user prepare their travel for #{@lod} days: day number, things to do" },
+          { role: "user",
+          content: "Give me a travel itinerary for #{location_name}. Respond only in JSON format. Don't have any text before the JSON"
+          }
+          ],
+        temperature: 0.7,
+    })
+
+%>
+
+<% raw_data = response.fetch("choices").at(0).fetch("message").fetch("content") %>
+
+<% parsed_data = JSON.parse(raw_data) %>
+
+
+<table border=1>
+  
+  <tr>
+    
+    <td>
+    Day
+    </td>
+
+    <td>
+    Things to do
+    </td>
+
+<% parsed_data.each do |day| %>
+
+  </tr>
+    <td>
+      <%= day.at(0) %>
+    </td>
+
+    <td>
+      <%= day.at(1) %>
+    </td>
+  <tr>
+<% end %>
+</table>

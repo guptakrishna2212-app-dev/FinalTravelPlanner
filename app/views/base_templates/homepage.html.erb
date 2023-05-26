@@ -4,7 +4,7 @@
   <form action="/gptresult">  
   <tr>
     <td>
-      <label for="il">From where do you want to travel?</label>
+      <label for="il">From which city do you want to travel?</label>
     </td>
 
     <td>
@@ -12,12 +12,16 @@
     </td>
 
     <td>
-      <label for="dis">How long do you want to travel? (in hours)</label>
+      <label for="dis">How far do you want to travel? (in hours)</label>
     </td>
 
     <td>
       <label for="type">What kind of location do you want to travel to?</label>
-    </td>   
+    </td>
+
+    <td>
+      <label for="length">For how many days do you want to travel?</label>
+    </td>      
   </tr>
 
     <tr>
@@ -49,6 +53,15 @@
         </select>
       </td>
 
+      <td>
+        <select id="length" name="length_days">
+          <option value="1" >1</option>
+          <option value="2" selected>2</option>  
+          <option value="3" >3</option>
+          <option value="4" >4</option>
+          <option value="5" >5</option>                                      
+        </select>
+      </td>
     </tr>
 </table>
 

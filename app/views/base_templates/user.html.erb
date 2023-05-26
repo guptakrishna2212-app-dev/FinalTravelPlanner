@@ -1,0 +1,28 @@
+<h1> <%= @uname %> </h1>
+
+<h3> List of destinations liked by <%= @uname %> </h1>
+
+<table>
+  <tr>
+    <td>
+    Destination id
+    </td>
+
+    <td>
+    Name of the destination
+    </td>
+  </tr>
+
+<% @user.each do |user| %>
+  <tr>
+    <td>
+      <%= user.destinationsthroughlike.at(0).id %>
+    </td>
+
+    <td>
+      <%= user.destinationsthroughlike.at(0).place_name %>
+    </td>
+  </tr>
+  
+<% end %>
+</table>

@@ -4,6 +4,7 @@ initial_location = params.fetch("initial_location")
 mode = params.fetch("mode")
 distance_hours = params.fetch("distance_hours")
 location_type = params.fetch("location_type")
+length_days = params.fetch("length_days")
 
 require "openai"
 
@@ -17,7 +18,7 @@ response = client.chat(
     parameters: {
         model: "gpt-3.5-turbo", 
         messages: [
-           { role: "system", content: "You are a helpful assistant that responds only in JSON format and gives a list of location with the following columns to help the user prepare their travel: name of the place, state, country, and travel time by #{mode}" },
+           { role: "system", content: "You are a helpful assistant that responds only in JSON format. Output will look like this {name of the place, state, country, and travel time by #{mode}} with hash title as destinations" },
           { role: "user",
           content: "Give me a list of all #{location_type} destinations within #{distance_hours} hours of #{mode} distance from #{initial_location}! Respond only in JSON format. Don't have any text before the JSON"
           }
@@ -44,32 +45,55 @@ response = client.chat(
     <td>
     Travelling time by <%= mode %>
     </td>
+
+    <td>
+      Like button
+    </td>
   </tr>
+
 
 
 <% raw_data = response.fetch("choices").at(0).fetch("message").fetch("content") %>
 
 <% parsed_data = JSON.parse(raw_data) %>
 
-<% parsed_data.fetch("destinations").each do |place| %>
+<% final_parsed = parsed_data.fetch("destinations") %>
+
+<% final_parsed.each do |place| %>
+<% d = Destination.new %>
   <tr>
+    
     <td>
       <a href= "/gptresult/<%= place["name"] %>"> 
         <%= place["name"] %>
       </a>
+      <% d.place_name =  place["name"] %>
     </td>
 
     <td>
       <%= place["state"] %>
+      <% d.state =  place["state"] %>
     </td>
 
     <td>
       <%= place["country"] %>
+      <% d.country = place["country"] %>
     </td>    
 
     <td>
       <%= place["travel_time_by_#{mode}"] %>
+      <% d.travel_time = place["travel_time_by_#{mode}"] %>
+
     </td>
 
+    <td>
+      <form action="/create_like">
+        <input type="hidden" name="place_name" value= <%= place["name"] %>>
+        <input type="submit" name="like_button" value="like">
+      </form>  
+    </td>
+
+      <% d.mode = mode %>
   </tr>
+  <% d.save %>
 <% end %>

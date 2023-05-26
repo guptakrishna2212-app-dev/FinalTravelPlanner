@@ -1,0 +1,65 @@
+<table border="1">
+  <tr>
+    <td>
+      Id
+    </td>
+
+    <td>
+    Place Name
+    </td>
+
+    <td>
+    State
+    </td>
+
+    <td>
+    Country
+    </td>
+
+    <td>
+    Travel time
+    </td>
+
+    <td>
+    Mode
+    </td>
+
+    <td>
+    Created_at
+    </td>
+  </tr>
+<% Destination.all.each do |a_place| %>
+
+  <tr>
+    <td>
+      <%= a_place.id%>
+    </td>
+
+    <td>
+      <%= a_place.place_name%>
+    </td>
+
+    <td>
+      <%= a_place.state%>
+    </td>
+
+    <td>
+      <%= a_place.country%>
+    </td>
+
+    <td>
+      <%= a_place.travel_time%>
+    </td>
+
+    <td>
+      <%= a_place.mode%>
+    </td>
+
+    <td>
+      <%= a_place.created_at%>
+    </td>
+
+
+  </tr>
+<% end %>
+</table>
